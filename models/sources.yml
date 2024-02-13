@@ -1,0 +1,34 @@
+version: 2
+
+sources:
+  - name: formula_1
+    schema: raw
+    tables:
+      - name: src_circuits
+        identifier: circuits
+      - name: src_constructor_standings
+        identifier: constructor_standings
+      - name: src_driver_standings
+        identifier: driver_standings
+      - name: src_drivers
+        identifier: drivers
+      - name: src_seasons
+        identifier: seasons
+      - name: src_status
+        identifier: status
+      - name: src_constructors
+        identifier: constructors
+      - name: src_results
+        identifier: results
+      - name: src_qualifying
+        identifier: qualifying
+      - name: src_pit_stops
+        identifier: pit_stops
+      - name: src_constructor_results
+        identifier: constructor_results
+      - name: src_sprint_results
+        identifier: sprint_results
+      - name: src_lap_times
+        identifier: lap_times
+      - name: src_races
+        identifier: races

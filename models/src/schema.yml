@@ -1,0 +1,694 @@
+version: 2
+models:
+
+  - name: src_circuits
+    description: F1 GP Race Track
+    columns:
+      - name: circuit_id
+        description: The unique identifier for each circuit. This is an integer value.
+        data_type: integer
+        tests:
+          - unique
+
+      - name: circuit_ref
+        description: The reference code for each circuit. This is a text value.
+        data_type: text
+      - name: name
+        description: The name of the circuit. This is a text value.
+        data_type: text
+      - name: location
+        description: The 'location' column represents the specific geographical location
+          of the circuit. It is a text data type and can contain city names,
+          landmarks, or other identifiable locations.
+        data_type: text
+      - name: country
+        description: The 'country' column represents the country where the circuit is
+          located. It is a text data type and contains the name of the country.
+        data_type: text
+      - name: lat
+        description: The 'lat' column represents the latitude coordinate of the
+          circuit's location. It is a double precision data type, meaning it can
+          hold a decimal number with a high degree of accuracy.
+        data_type: double precision
+      - name: lng
+        description: The 'lng' column represents the longitude of the circuit location.
+          It is of double precision data type, meaning it can hold a real
+          number, with a precision of at least 15 digits.
+        data_type: double precision
+      - name: alt
+        description: The 'alt' column represents the altitude of the circuit location.
+          It is an integer data type, meaning it can hold a whole number,
+          without a fractional component.
+        data_type: integer
+      - name: url
+        description: The 'url' column represents the URL of the circuit's official
+          website or a relevant web page. It is a text data type, meaning it can
+          hold a string of any length.
+        data_type: text
+  - name: src_constructor_results
+    description: F1 race car team results
+    columns:
+      - name: constructor_results_id
+        description: The unique identifier for each constructor result. This is a
+          primary key.
+        data_type: integer
+        tests:
+          - unique
+
+      - name: race_id
+        description: The unique identifier for each race. This is a foreign key that
+          links to the race table.
+        data_type: integer
+      - name: constructor_id
+        description: The unique identifier for each constructor. This is a foreign key
+          that links to the constructor table.
+        data_type: integer
+        tests:
+          - relationships:
+              to: ref('src_constructors')
+              field: constructor_id
+
+      - name: points
+        description: Points earned by the constructor in the race.
+        data_type: double precision
+      - name: status
+        description: Status of the constructor in the race.
+        data_type: text
+  - name: src_constructor_standings
+    description: F1 race car team standings on their race result points
+    columns:
+      - name: constructor_standings_id
+        description: An integer that uniquely identifies each constructor standing
+          record. This is the primary key for the src_constructor_standings
+          model.
+        data_type: integer
+        tests:
+          - unique
+
+      - name: race_id
+        description: An integer that represents the unique identifier for each race.
+          This is a foreign key that links to the race_id in the races model.
+        data_type: integer
+      - name: constructor_id
+        description: An integer that represents the unique identifier for each
+          constructor. This is a foreign key that links to the constructor_id in
+          the constructors model.
+        data_type: integer
+      - name: points
+        description: The 'points' column represents the total points earned by the
+          constructor in the race. It is a double precision type, meaning it can
+          hold a real number, with a precision of at least 15 digits.
+        data_type: double precision
+      - name: position
+        description: The 'position' column represents the final position of the
+          constructor in the race. It is an integer type, meaning it can hold a
+          whole number.
+        data_type: integer
+      - name: position_text
+        description: The 'position_text' column represents the final position of the
+          constructor in the race, represented as text. It is a text type,
+          meaning it can hold a string of characters.
+        data_type: text
+      - name: wins
+        description: The 'wins' column in the src_constructor_standings model represents
+          the number of wins by the constructor in the race. It is an integer
+          value.
+        data_type: integer
+  - name: src_constructors
+    description: F1 race car team, refered to as Constructors
+    columns:
+      - name: constructor_id
+        description: This is a unique identifier for each constructor. It is an integer
+          value.
+        data_type: integer
+        tests:
+          - unique
+
+      - name: constructor_ref
+        description: This is a reference value for each constructor. It is a text value.
+        data_type: text
+      - name: name
+        description: This is the name of the constructor. It is a text value.
+        data_type: text
+      - name: nationality
+        description: The nationality column represents the nationality of the
+          constructor. It is of text type.
+        data_type: text
+      - name: url
+        description: The url column represents the URL of the constructor's website. It
+          is of text type.
+        data_type: text
+  - name: src_driver_standings
+    description: F1 Driver points standings
+    columns:
+      - name: driver_standings_id
+        description: The unique identifier for each driver's standing. This is an
+          integer value.
+        data_type: integer
+        tests:
+          - unique
+
+      - name: race_id
+        description: The unique identifier for each race. This is an integer value.
+        data_type: integer
+      - name: driver_id
+        description: The unique identifier for each driver. This is an integer value.
+        data_type: integer
+      - name: points
+        description: The total points accumulated by the driver in the race.
+        data_type: double precision
+      - name: position
+        description: The final position of the driver in the race.
+        data_type: integer
+      - name: position_text
+        description: The final position of the driver in the race, represented as text.
+        data_type: text
+      - name: wins
+        description: The 'wins' column in the src_driver_standings model represents the
+          total number of wins by the driver in the race. It is an integer
+          value.
+        data_type: integer
+  - name: src_drivers
+    description: F1 Driver details
+    columns:
+      - name: driver_id
+        description: The unique identifier for each driver. This is an integer value.
+        data_type: integer
+        tests:
+          - unique
+
+      - name: driver_ref
+        description: The 'driver_ref' column is of type 'text'. It is a unique reference
+          identifier for each driver in the database. This identifier is used to
+          link the driver to their respective records in other tables or models.
+        data_type: text
+      - name: number
+        description: The number associated with each driver. This is a text field and
+          may contain non-numeric characters.
+        data_type: text
+      - name: code
+        description: The 'code' column represents the unique code assigned to each
+          driver. This is a text field.
+        data_type: text
+      - name: forename
+        description: The 'forename' column represents the first name of the driver. This
+          is a text field.
+        data_type: text
+      - name: surname
+        description: The 'surname' column represents the last name of the driver. This
+          is a text field.
+        data_type: text
+      - name: dob
+        description: The 'dob' column represents the date of birth of the driver. It is
+          of the date data type.
+        data_type: date
+      - name: nationality
+        description: The 'nationality' column represents the nationality of the driver.
+          It is of the text data type.
+        data_type: text
+      - name: url
+        description: The 'url' column represents the URL related to the driver. It is of
+          the text data type.
+        data_type: text
+      - name: driver_name
+        description: This column is a concatenation of the 'forename' and 'surname'
+          columns, separated by a space. It represents the full name of the
+          driver.
+        data_type: text
+      - name: driver_number
+        description: This column represents the driver's number. It is derived from the
+          'number' column, with '\N' values replaced with NULL. The values are
+          cast to BIGINT.
+        data_type: bigint
+  - name: src_lap_times
+    description: Lap times for a F1 GP race
+    columns:
+      - name: race_id
+        description: An integer value representing the unique identifier for each race.
+        data_type: integer
+      - name: driver_id
+        description: An integer value representing the unique identifier for each driver.
+        data_type: integer
+      - name: lap
+        description: An integer value representing the lap number in a particular race.
+        data_type: integer
+      - name: position
+        description: The 'position' column represents the position of the driver at the
+          end of each lap. It is an integer value.
+        data_type: integer
+      - name: time
+        description: The 'time' column represents the time taken by the driver to
+          complete each lap. It is a time without time zone value, formatted as
+          'MI:SS.MS'.
+        data_type: time without time zone
+      - name: milliseconds
+        description: The 'milliseconds' column represents the time taken by the driver
+          to complete each lap in milliseconds. It is an integer value.
+        data_type: integer
+  - name: src_pit_stops
+    description: "The src_pit_stops model contains detailed information about pit
+      stops in Formula 1 Grand Prix races. Each row represents a single pit stop
+      made by a driver during a race. The model includes the following columns:
+      race_id (integer), driver_id (integer), stop (integer), lap (integer),
+      stop_time (time without time zone), and total_pit_time (time without time
+      zone). The stop_time column is derived from the raw data, with null values
+      replacing any non-numeric entries. The total_pit_time column is calculated
+      by converting the milliseconds column from the raw data into a time
+      format."
+    columns:
+      - name: race_id
+        description: An integer representing the unique identifier for each race. This
+          is a foreign key that links to the 'races' table.
+        data_type: integer
+          
+      - name: driver_id
+        description: An integer representing the unique identifier for each driver. This
+          is a foreign key that links to the 'drivers' table.
+        data_type: integer
+      - name: stop
+        description: An integer representing the number of pit stops made by a driver
+          during a race. This value is incremented each time a driver makes a
+          pit stop.
+        data_type: integer
+      - name: lap
+        description: The 'lap' column is an integer that represents the lap number
+          during which the pit stop occurred in the race.
+        data_type: integer
+      - name: stop_time
+        description: The 'stop_time' column is a time without time zone that represents
+          the duration of the pit stop. If the original time value is '\N', it
+          is converted to NULL; otherwise, it is cast to a timestamp using the
+          'SS.MS' format.
+        data_type: time without time zone
+      - name: total_pit_time
+        description: The 'total_pit_time' column is a time without time zone that
+          represents the total time spent in the pit during the race. It is
+          calculated by adding '00:00:00' to the product of the 'milliseconds'
+          column and the interval '1 millisecond'.
+        data_type: time without time zone
+  - name: src_qualifying
+    description: "Contains information about the qualifying rounds of Formula 1
+      races. The model includes the following columns: 'qualify_id' which is the
+      unique identifier for each qualifying round, 'race_id' which is the unique
+      identifier for each race, 'driver_id' which is the unique identifier for
+      each driver, 'constructor_id' which is the unique identifier for each
+      constructor, 'number' which represents the number associated with a driver
+      or a team, 'position' which represents the position achieved in the
+      qualifying round, and 'q1', 'q2', 'q3' which represent the times achieved
+      in the first, second, and third qualifying rounds respectively."
+    columns:
+      - name: qualify_id
+        description: The unique identifier for each qualifying event. This is an integer
+          value that is auto-incremented for each new qualifying event.
+        data_type: integer
+        tests:
+          - unique
+          
+      - name: race_id
+        description: The unique identifier for each race. This is an integer value that
+          is auto-incremented for each new race.
+        data_type: integer
+      - name: driver_id
+        description: The unique identifier for each driver. This is an integer value
+          that is auto-incremented for each new driver.
+        data_type: integer
+      - name: constructor_id
+        description: An integer that uniquely identifies the constructor of the vehicle
+          used in the race.
+        data_type: integer
+      - name: number
+        description: An integer that represents the number assigned to the driver for
+          the race.
+        data_type: integer
+      - name: position
+        description: An integer that represents the position in which the driver
+          qualified for the race.
+        data_type: integer
+      - name: q1
+        description: This column represents the time recorded by the driver in the first
+          qualifying round. It is of text data type.
+        data_type: text
+      - name: q2
+        description: This column represents the time recorded by the driver in the
+          second qualifying round. It is of text data type.
+        data_type: text
+      - name: q3
+        description: This column represents the time recorded by the driver in the third
+          qualifying round. It is of text data type.
+        data_type: text
+  - name: src_races
+    description: "Contains details for a F1 race period from free practises (FP1,
+      FP2, FP3), sprint race and grand prix  "
+    columns:
+      - name: race_id
+        description: The unique identifier for each race. This is an integer value.
+        data_type: integer
+        tests:
+          - unique
+          
+      - name: year
+        description: The year in which the race took place. This is an integer value.
+        data_type: integer
+      - name: round
+        description: The round of the race in the championship. This is an integer value.
+        data_type: integer
+      - name: circuit_id
+        description: The unique identifier for each circuit. This is an integer value
+          that is used to uniquely identify each circuit in the database.
+        data_type: integer
+      - name: name
+        description: The name of the race. This is a text field that contains the name
+          of the race. It is used to provide a human-readable identifier for
+          each race.
+        data_type: text
+      - name: date
+        description: The date of the race. This is a date field that contains the date
+          on which the race took place. It is used to provide a chronological
+          context for each race.
+        data_type: date
+      - name: time
+        description: This column represents the time of the race. It is stored as a time
+          without time zone data type. If the original data source has a '\N'
+          value, it is converted to NULL.
+        data_type: time without time zone
+      - name: url
+        description: This column contains the URL of the race. It is stored as a text
+          data type.
+        data_type: text
+      - name: fp1_date_time
+        description: This column represents the date and time of the first free practice
+          (fp1) session. It is stored as a timestamp without time zone data
+          type. If the original data source has a '\N' value for either the date
+          or time, it is converted to NULL.
+        data_type: timestamp without time zone
+      - name: fp2_date_time
+        description: This column represents the date and time of the second free
+          practice session (FP2) for a particular race. The data type is
+          timestamp without time zone. If the date or time is not available, the
+          value will be NULL.
+        data_type: timestamp without time zone
+      - name: fp3_date_time
+        description: This column represents the date and time of the third free practice
+          session (FP3) for a particular race. The data type is timestamp
+          without time zone. If the date or time is not available, the value
+          will be NULL.
+        data_type: timestamp without time zone
+      - name: quali_date_time
+        description: This column represents the date and time of the qualifying session
+          for a particular race. The data type is timestamp without time zone.
+          If the date or time is not available, the value will be NULL.
+        data_type: timestamp without time zone
+      - name: sprint_date_time
+        description: This column represents the date and time of the sprint race. The
+          data type is timestamp without time zone. If the original data for
+          date or time is '\N', it is considered as NULL.
+        data_type: timestamp without time zone
+  - name: src_results
+    description: Contains race weekend results
+    columns:
+      - name: result_id
+        description: An integer that uniquely identifies each result. This is the
+          primary key for the src_results model.
+        data_type: integer
+        tests:
+          - unique
+
+      - name: race_id
+        description: An integer that represents the unique identifier for each race.
+          This is a foreign key that links to the race_id in the races model.
+        data_type: integer
+      - name: driver_id
+        description: An integer that represents the unique identifier for each driver.
+          This is a foreign key that links to the driver_id in the drivers
+          model.
+        data_type: integer
+        tests:
+          - relationships:
+              to: ref('src_drivers')
+              field: driver_id
+
+      - name: constructor_id
+        description: An integer that uniquely identifies the constructor of the car used
+          in the race.
+        data_type: integer
+        tests:
+          - relationships:
+              to: ref('src_constructors')
+              field: constructor_id
+
+      - name: number
+        description: A bigint that represents the number assigned to the driver for the
+          race. If the number is not available, the value will be NULL.
+        data_type: bigint
+      - name: grid
+        description: An integer that represents the starting position of the driver on
+          the grid. The grid position is determined by the qualifying time.
+        data_type: integer
+      - name: position
+        description: The 'position' column represents the final position of the driver
+          in the race. It is of text data type and can contain numeric values or
+          text such as 'R' for retired, 'D' for disqualified, 'N' for not
+          classified, etc.
+        data_type: text
+      - name: position_text
+        description: The 'position_text' column is a textual representation of the final
+          position of the driver in the race. It is similar to the 'position'
+          column but may contain additional information or context.
+        data_type: text
+      - name: position_order
+        description: The 'position_order' column is an integer representation of the
+          final position of the driver in the race. Unlike the 'position' and
+          'position_text' columns, this column only contains numeric values and
+          is used for sorting and ordering purposes.
+        data_type: integer
+      - name: points
+        description: The 'points' column represents the number of points a driver has
+          earned in a particular race. The data type is double precision,
+          allowing for fractional points in certain racing formats.
+        data_type: double precision
+      - name: laps
+        description: The 'laps' column indicates the number of laps completed by a
+          driver in a specific race. This is an integer value, as laps are
+          counted in whole numbers.
+        data_type: integer
+      - name: time
+        description: The 'time' column records the total time taken by a driver to
+          complete a race. This is represented as a text string in the format
+          'HH:MM:SS'.
+        data_type: text
+      - name: milliseconds
+        description: This column represents the time taken by the driver to complete a
+          lap in milliseconds. It is derived from the raw data and is converted
+          to a time format in the 'lap_time' column. If the raw data contains a
+          non-numeric value, it is replaced with NULL.
+        data_type: text
+      - name: lap_time
+        description: This column represents the time taken by the driver to complete a
+          lap. It is derived from the 'milliseconds' column by converting the
+          millisecond value into a time format. If the 'milliseconds' column
+          contains a NULL value, 'lap_time' will also be NULL.
+        data_type: time without time zone
+      - name: fastest_lap
+        description: This column represents the fastest lap completed by the driver
+          during the race. It is derived from the raw data and is converted to a
+          BIGINT data type. If the raw data contains a non-numeric value, it is
+          replaced with NULL.
+        data_type: bigint
+      - name: rank
+        description: The 'rank' column is of type bigint. It represents the rank of the
+          driver in the race. If the value is '\N', it is considered as NULL.
+        data_type: bigint
+      - name: fastest_lap_time
+        description: The 'fastest_lap_time' column is of type time without time zone. It
+          represents the fastest lap time of the driver in the race. The time is
+          calculated by converting the 'fastestLapTime' from the source data to
+          a timestamp. If the value is '\N', it is considered as NULL.
+        data_type: time without time zone
+      - name: fastest_lap_speed
+        description: The 'fastest_lap_speed' column is of type double precision. It
+          represents the fastest lap speed of the driver in the race. The speed
+          is calculated by converting the 'fastestLapSpeed' from the source data
+          to a double precision value. If the value is '\N', it is considered as
+          NULL.
+        data_type: double precision
+      - name: status_id
+        description: An integer value representing the status of the race for a
+          particular driver. This could include information such as whether the
+          driver finished the race, retired, or was disqualified.
+        data_type: integer
+  - name: src_seasons
+    description: Contains GP races for a season
+    columns:
+      - name: year
+        description: The 'year' column represents the year of the season. It is an
+          integer type column.
+        data_type: integer
+      - name: url
+        description: The 'url' column contains the URL of the season. It is a text type
+          column.
+        data_type: text
+  - name: src_sprint_results
+    description: Contains sprint race result details
+    columns:
+      - name: result_id
+        description: The unique identifier for each race result. This is a primary key
+          in the src_sprint_results model.
+        data_type: integer
+        tests:
+          - unique
+          
+      - name: race_id
+        description: The unique identifier for each race. This is a foreign key that
+          links to the race_id in the races model.
+        data_type: integer
+      - name: driver_id
+        description: The unique identifier for each driver. This is a foreign key that
+          links to the driver_id in the drivers model.
+        data_type: integer
+      - name: constructor_id
+        description: An integer that uniquely identifies the constructor of the car used
+          in the race.
+        data_type: integer
+      - name: number
+        description: An integer that represents the number assigned to the driver for
+          the race.
+        data_type: integer
+      - name: grid
+        description: An integer that represents the starting position of the driver on
+          the grid for the race.
+        data_type: integer
+      - name: position
+        description: This column represents the final position of the driver in the
+          race. It is a text field that can contain numeric values as well as
+          special characters to denote certain conditions (e.g., 'R' for
+          retired, 'D' for disqualified).
+        data_type: text
+      - name: position_text
+        description: This column contains the text representation of the driver's final
+          position in the race. It is similar to the 'position' column but may
+          contain additional information or context.
+        data_type: text
+      - name: position_order
+        description: This column represents the order of the driver's final position in
+          the race. It is an integer field that provides a numeric ranking of
+          the driver's performance, with lower numbers indicating better
+          performance.
+        data_type: integer
+      - name: points
+        description: The 'points' column represents the total points earned by a driver
+          in a specific race. It is an integer value.
+        data_type: integer
+      - name: laps
+        description: The 'laps' column indicates the total number of laps completed by a
+          driver in a specific race. It is also an integer value.
+        data_type: integer
+      - name: time
+        description: The 'time' column represents the total time taken by a driver to
+          complete the race. It is a text value, typically formatted as
+          'HH:MM:SS'.
+        data_type: text
+      - name: milliseconds
+        description: This column represents the total time taken by the driver to
+          complete the race in milliseconds. It is a text field as the time is
+          represented in a 'hh:mm:ss.sss' format.
+        data_type: text
+      - name: fastest_lap
+        description: This column indicates the lap in which the driver achieved their
+          fastest lap time during the race. It is a text field as it represents
+          the lap number.
+        data_type: text
+      - name: fastest_lap_time
+        description: This column represents the fastest lap time achieved by the driver
+          during the race. It is a text field as the time is represented in a
+          'mm:ss.sss' format.
+        data_type: text
+      - name: status_id
+        description: An integer that uniquely identifies the status of the race for a
+          particular driver. This could include information such as whether the
+          driver finished the race, retired, or was disqualified.
+        data_type: integer
+  - name: src_status
+    description: "It consists of two columns: status_id and status_text. The
+      status_id is an integer that uniquely identifies each status. The
+      status_text is a text field that describes the status. The SQL for this
+      model uses a common table expression (CTE) to select all records from the
+      raw status table, and then renames the columns to match the schema of the
+      src_status model."
+    columns:
+      - name: status_id
+        description: The unique identifier for each status. This is an integer value.
+        data_type: integer
+        tests:
+          - unique
+          
+      - name: status_text
+        description: The text description of the status. This is a text value.
+        data_type: text
+  - name: dim_races
+    description: The 'dim_races' model is a dimension table that includes all
+      columns from the 'src_races' table in the 'dev' schema of the 'postgres'
+      database, providing comprehensive information about various races.
+    columns:
+      - name: race_id
+        description: An integer that uniquely identifies each race. This is the primary
+          key for the dim_races model.
+        data_type: integer
+        tests:
+          - unique
+          
+      - name: year
+        description: An integer representing the year in which the race took place. This
+          field is used to filter races by year.
+        data_type: integer
+      - name: round
+        description: An integer representing the round of the race within the year. This
+          field is used to order races within a given year.
+        data_type: integer
+      - name: circuit_id
+        description: An integer column that represents the unique identifier for each
+          circuit in the races dataset. This column is used to join with the
+          circuits table to get more detailed information about the circuit
+          where the race took place.
+        data_type: integer
+      - name: name
+        description: A text column that represents the name of the race. This column
+          provides a human-readable identifier for each race and can be used for
+          filtering or grouping data by race name.
+        data_type: text
+      - name: date
+        description: A date column that represents the date when the race took place.
+          This column is used to sort races chronologically and to analyze race
+          data in the context of time.
+        data_type: date
+      - name: time
+        description: This column represents the time of the race. It is stored as a time
+          without time zone data type.
+        data_type: time without time zone
+      - name: url
+        description: This column contains the URL of the race. It is stored as a text
+          data type.
+        data_type: text
+      - name: fp1_date_time
+        description: This column represents the date and time of the first free practice
+          session (FP1). It is stored as a timestamp without time zone data
+          type.
+        data_type: timestamp without time zone
+      - name: fp2_date_time
+        description: This column represents the date and time of the second free
+          practice session (FP2) for a particular race. The data type is
+          timestamp without time zone.
+        data_type: timestamp without time zone
+      - name: fp3_date_time
+        description: This column represents the date and time of the third free practice
+          session (FP3) for a particular race. The data type is timestamp
+          without time zone.
+        data_type: timestamp without time zone
+      - name: quali_date_time
+        description: This column represents the date and time of the qualifying session
+          for a particular race. The data type is timestamp without time zone.
+        data_type: timestamp without time zone
+      - name: sprint_date_time
+        description: The 'sprint_date_time' column in the 'dim_races' model represents
+          the date and time of the sprint for each race. It is of the 'timestamp
+          without time zone' data type.
+        data_type: timestamp without time zone

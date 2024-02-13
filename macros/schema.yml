@@ -1,0 +1,101 @@
+version: 2
+
+macros:
+  - name: text_date_time_to_timestamp
+    description: Replaces "\N" with null before casting time string to timestamp
+    arguments:
+      - name: str_date
+        type: string
+        description: The date string to be converted to timestamp
+      - name: str_time
+        type: string
+        description: The time string to be converted to timestamp
+    usage: |
+      {# 
+        Replaces "\N" with null before casting time string to timestamp 
+        Usage: {{ text_date_time_to_timestamp('str_date', 'str_time') }} 
+      #}
+
+  - name: int_milli_to_timestamp
+    description: Replaces "\N" with null before casting milliseconds in numbers to timestamp
+    arguments:
+      - name: str_num
+        type: string
+        description: The milliseconds number to be converted to timestamp
+    usage: |
+      {# 
+        Replaces "\N" with null before casting milliseconds in numbers to timestamp 
+        Usage: {{ int_milli_to_timestamp('str_num') }} 
+      #}
+
+  - name: nan_to_null
+    description: Replaces "\N" with null
+    arguments:
+      - name: val
+        type: string
+        description: The value to be checked and replaced
+    usage: |
+      {# 
+        Replaces "\N" with null 
+        Usage: {{ nan_to_null('val') }} 
+      #}
+  
+  - name: text_milli_to_timestamp
+    description: Replaces "\N" with null before casting milliseconds in numbers to timestamp
+    arguments:
+      - name: str_num
+        type: string
+        description: The milliseconds number to be converted to timestamp
+    usage: |
+      {# 
+        Replaces "\N" with null before casting milliseconds in numbers to timestamp 
+        Usage: {{ text_milli_to_timestamp('str_num') }} 
+      #}
+
+  - name: text_sec_to_timestamp
+    description: Replaces "\N" with null before casting time string to timestamp
+    arguments:
+      - name: str_time
+        type: string
+        description: The time string to be converted to timestamp
+    usage: |
+      {# 
+        Replaces "\N" with null before casting time string to timestamp 
+        Usage: {{ text_sec_to_timestamp('str_time') }} 
+      #}
+
+  - name: text_time_to_timestamp
+    description: Replaces "\N" with null before casting time string to timestamp
+    arguments:
+      - name: str_time
+        type: string
+        description: The time string to be converted to timestamp
+    usage: |
+      {# 
+        Replaces "\N" with null before casting time string to timestamp 
+        Usage: {{ text_time_to_timestamp('str_time') }} 
+      #}
+
+  - name: text_to_double
+    description: Replaces "\N" with null before casting text to double
+    arguments:
+      - name: str_num
+        type: string
+        description: The text string to be converted to double
+    usage: |
+      {# 
+        Replaces "\N" with null before casting text to double 
+        Usage: {{ text_to_double('str_num') }} 
+      #}
+
+  - name: text_to_int8
+    description: Replaces "\N" with null before casting to int8
+    arguments:
+      - name: str_num
+        type: string
+        description: The text string to be converted to int8
+    usage: |
+      {# 
+        Replaces "\N" with null before casting to int8
+        Usage: {{ text_to_int8('str_num') }} 
+      #}

@@ -1,0 +1,212 @@
+models:
+  - name: dim_car_status
+    description: The 'dim_car_status' model is a dimensional model that represents
+      the status of cars. It is derived from the 'src_status' source table in
+      the 'dev' schema of the 'postgres' database. The model includes all
+      columns from the source table. The purpose of this model is to provide a
+      structured and reliable source of information about car statuses for
+      further analysis and reporting.
+    columns:
+      - name: status_id
+        description: The unique identifier for each car status. This is an integer value.
+        data_type: integer
+      - name: status_text
+        description: The text description of the car status. This is a text field.
+        data_type: text
+  - name: dim_circuits
+    description: The 'dim_circuits' model is a transformation of the 'src_circuits'
+      source table, providing a clean and reliable version of the table for
+      further analysis and reporting. It includes circuit details like circuit
+      ID, circuit name, circuit type, location, and other related information.
+    columns:
+      - name: circuit_id
+        description: An integer that uniquely identifies each circuit.
+        data_type: integer
+      - name: circuit_ref
+        description: A text field that provides a reference for the circuit, often an
+          abbreviation or short form.
+        data_type: text
+      - name: name
+        description: The name of the circuit as a text field.
+        data_type: text
+      - name: location
+        description: The 'location' column represents the specific geographical location
+          of the circuit. It is a text data type and can include city, state, or
+          region information.
+        data_type: text
+      - name: country
+        description: The 'country' column represents the country where the circuit is
+          located. It is a text data type and follows the standard country
+          naming conventions.
+        data_type: text
+      - name: lat
+        description: The 'lat' column represents the latitude coordinate of the
+          circuit's location. It is a double precision data type, providing a
+          high level of accuracy for geographical positioning.
+        data_type: double precision
+      - name: lng
+        description: The 'lng' column represents the longitude of the circuit location.
+          It is a double precision type, meaning it can hold a real number, with
+          double precision. This is used to accurately pinpoint the circuit's
+          geographical location on a map.
+        data_type: double precision
+      - name: alt
+        description: The 'alt' column represents the altitude of the circuit location.
+          It is an integer type, meaning it can hold a whole number. This is
+          used to provide additional geographical information about the
+          circuit's location.
+        data_type: integer
+      - name: url
+        description: The 'url' column represents the URL of the circuit's official
+          website or a relevant web page. It is a text type, meaning it can hold
+          a string of characters. This is used to provide a reference or
+          additional information about the circuit.
+        data_type: text
+  - name: dim_constructor
+    description: The model selects all columns from the source table without any
+      transformations or filters. The purpose of this model is to provide a
+      clean, ready-to-use version of the 'src_constructors' table for further
+      analysis and reporting. The exact structure and content of the model
+      depend on the underlying source table.
+    columns:
+      - name: constructor_id
+        description: This is a unique identifier for each constructor. It is an integer
+          type column.
+        data_type: integer
+      - name: constructor_ref
+        description: This is a reference column for each constructor. It is a text type
+          column.
+        data_type: text
+      - name: name
+        description: This column contains the name of the constructor. It is a text type
+          column.
+        data_type: text
+      - name: nationality
+        description: The nationality column represents the nationality of the
+          constructor. It is of text type.
+        data_type: text
+      - name: url
+        description: The url column represents the URL of the constructor's website. It
+          is of text type.
+        data_type: text
+  - name: dim_drivers
+    description: The 'dim_drivers' model transforms the 'src_drivers' source table,
+      cleaning and enhancing driver data, including replacing '\N' values with
+      NULL in the 'number' column and creating a 'full_name' column from
+      'forename' and 'surname'.
+    columns:
+      - name: driver_id
+        description: This is an integer column that uniquely identifies each driver. It
+          is the primary key for the dim_drivers model.
+        data_type: integer
+      - name: driver_ref
+        description: This is a text column that contains a reference to the driver. It
+          is used for linking to other tables or sources that contain additional
+          information about the driver.
+        data_type: text
+      - name: number
+        description: >-
+          This column represents the unique number assigned to each driver. It
+          is a text field that can be null if the number is not available. This
+          number can be used to uniquely identify drivers in some contexts.
+
+          text driver number converted to int using nan_to_null macro
+        data_type: text
+      - name: code
+        description: The code associated with the driver.
+        data_type: text
+      - name: forename
+        description: The first name of the driver.
+        data_type: text
+      - name: surname
+        description: The last name of the driver.
+        data_type: text
+      - name: full_name
+        description: The full name of the driver, which is a concatenation of the
+          'forename' and 'surname' columns.
+        data_type: text
+      - name: dob
+        description: The date of birth of the driver, stored in the 'date' format.
+        data_type: date
+      - name: nationality
+        description: The nationality of the driver, stored as text.
+        data_type: text
+      - name: url
+        description: This column contains the URL of the driver's profile or related
+          webpage. It is a text field and can contain any valid URL.
+        data_type: text
+      - name: driver_name
+        description: This column contains the full name of the driver. It is a
+          combination of the 'forename' and 'surname' columns. It is a text
+          field and can contain any valid string.
+        data_type: text
+      - name: driver_number
+        description: This column contains the unique number assigned to each driver. It
+          is a bigint field and can contain any valid integer.
+        data_type: bigint
+
+  - name: dim_gp_results
+    columns:
+      - name: date
+        tests:
+          - not_null
+        data_type: date
+        description: The date column represents the date on which the Grand Prix took
+          place. It is of the date data type.
+      - name: round
+        description: The round column represents the round of the Grand Prix. It is an
+          integer data type.
+        data_type: integer
+      - name: name
+        description: The name column represents the name of the Grand Prix. It is a text
+          data type.
+        data_type: text
+      - name: positionorder
+        description: The 'positionorder' column represents the finishing position of the
+          driver in the race. It is a bigint data type.
+        data_type: bigint
+      - name: driver_name
+        description: The 'driver_name' column represents the name of the driver who
+          participated in the race. It is a text data type.
+        data_type: text
+      - name: driver_number
+        description: The 'driver_number' column represents the unique number assigned to
+          each driver. It is a bigint data type.
+        data_type: bigint
+      - name: milliseconds
+        description: This column represents the time taken by the driver to complete the
+          race in milliseconds. It is a text field as the time is represented in
+          a 'hh:mm:ss:ms' format.
+        data_type: text
+      - name: points
+        description: This column represents the points earned by the driver in the race.
+          It is a double precision field, allowing for fractional points in case
+          of ties or penalties.
+        data_type: double precision
+      - name: fastestlap
+        description: This column represents the fastest lap completed by the driver
+          during the race. It is a text field as the lap time is represented in
+          a 'mm:ss:ms' format.
+        data_type: text
+      - name: fastestlaptime
+        description: This column represents the fastest lap time achieved by a driver in
+          a specific race. The data type is text.
+        data_type: text
+      - name: fastestlapspeed
+        description: This column represents the fastest lap speed achieved by a driver
+          in a specific race. The data type is text.
+        data_type: text
+      - name: overall_points
+        description: This column represents the total points accumulated by a driver up
+          to and including the specific race. The data type is double precision.
+        data_type: double precision
+      - name: overall_wins
+        description: The 'overall_wins' column represents the total number of wins a
+          driver has achieved up to the date of the race. This is calculated by
+          summing up all the wins a driver has had in all the races up to the
+          current one. The data type of this column is integer.
+        data_type: integer
+    description: "The 'dim_gp_results' model provides a comprehensive view of Grand
+      Prix results, combining data from four sources: 'src_races',
+      'src_results', 'src_drivers', and 'src_driver_standings'. It includes race
+      details, race results, driver details, and overall driver standings."

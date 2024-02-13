@@ -1,0 +1,186 @@
+models:
+  - name: fct_grand_prix_results
+    description: The fct_grand_prix_results model is a fact table that contains the
+      results of the Formula 1 grand prix from the years 1950 to 2023.
+    columns:
+      - name: result_id
+        description: An integer that uniquely identifies each result in the grand prix
+          results dataset. This is the primary key for the
+          fct_grand_prix_results model.
+        data_type: integer
+      - name: race_id
+        description: An integer that represents the unique identifier for each race in
+          the grand prix. This column is used to join with the race dimension
+          table.
+        data_type: integer
+      - name: driver_id
+        description: An integer that represents the unique identifier for each driver in
+          the grand prix. This column is used to join with the driver dimension
+          table.
+        data_type: integer
+      - name: constructor_id
+        description: An integer that uniquely identifies the constructor of the car used
+          in the race.
+        data_type: integer
+      - name: number
+        description: A text field that represents the number assigned to the driver for
+          the race.
+        data_type: text
+      - name: grid
+        description: An integer that represents the starting position of the driver on
+          the grid for the race.
+        data_type: integer
+      - name: position
+        description: The 'position' column is of type text and represents the final
+          position of the driver in the Grand Prix race. This column can contain
+          null values if the driver did not finish the race.
+        data_type: text
+      - name: position_text
+        description: The 'position_text' column is of type text and provides a textual
+          representation of the driver's final position in the Grand Prix race.
+          This column can contain null values if the driver did not finish the
+          race.
+        data_type: text
+      - name: position_order
+        description: The 'position_order' column is of type integer and represents the
+          order in which the drivers finished the Grand Prix race. This column
+          can contain null values if the driver did not finish the race.
+        data_type: integer
+      - name: points
+        description: The 'points' column represents the total points earned by a driver
+          in a specific Grand Prix. The data type is double precision, allowing
+          for decimal points.
+        data_type: double precision
+      - name: laps
+        description: The 'laps' column indicates the total number of laps completed by a
+          driver in a specific Grand Prix. The data type is integer,
+          representing whole numbers only.
+        data_type: integer
+      - name: time
+        description: The 'time' column records the total time taken by a driver to
+          complete the Grand Prix. The data type is text, and the time is
+          typically represented in the format 'HH:MM:SS'.
+        data_type: text
+      - name: milliseconds
+        description: This column represents the total time taken by the driver to
+          complete the race in milliseconds. It is of text data type.
+        data_type: text
+      - name: lap_time
+        description: This column represents the time taken by the driver to complete a
+          single lap during the race. It is of time without time zone data type.
+        data_type: time without time zone
+      - name: fastest_lap
+        description: This column represents the lap number on which the driver achieved
+          their fastest lap time during the race. It is of bigint data type.
+        data_type: bigint
+      - name: rank
+        description: The 'rank' column is of type 'bigint' and represents the final
+          position of a driver in a specific Grand Prix race.
+        data_type: bigint
+      - name: fastest_lap_time
+        description: The 'fastest_lap_time' column is of type 'text' and represents the
+          fastest lap time recorded by a driver in a specific Grand Prix race.
+          The time is represented in the format 'minutes:seconds.milliseconds'.
+        data_type: text
+      - name: fastest_lap_speed
+        description: The 'fastest_lap_speed' column is of type 'text' and represents the
+          highest speed achieved by a driver in a specific Grand Prix race. The
+          speed is represented in kilometers per hour (km/h).
+        data_type: text
+      - name: status_id
+        description: The unique identifier for the status of the Grand Prix result. This
+          is a foreign key that links to the src_status table.
+        data_type: integer
+      - name: status_text
+        description: The text description of the status of the Grand Prix result. This
+          field provides more context about the status_id.
+        data_type: text
+  - name: fct_lap_times
+    description: The fct_lap_times model is a fact table that contains detailed
+      information about the lap times and positions of drivers in Formula 1
+      Grand Prix races. The data is sourced from the src_lap_times table in the
+      dev schema of the postgres database.
+    columns: []
+  - name: fct_fastest_driver_lap_times
+    description: The 'fct_fastest_driver_lap_times' model provides the fastest lap
+      times for each driver in each race, determined by ranking lap times and
+      selecting the fastest one.
+    columns:
+      - name: race_id
+        description: An integer column that uniquely identifies each race. This is a
+          foreign key that links to the primary key in the races table.
+        data_type: integer
+      - name: driver_id
+        description: An integer column that uniquely identifies each driver. This is a
+          foreign key that links to the primary key in the drivers table.
+        data_type: integer
+      - name: lap
+        description: An integer column that represents the lap number for which the time
+          is recorded. This is a key attribute in the model.
+        data_type: integer
+      - name: position
+        description: The 'position' column represents the position of the driver during
+          the fastest lap. It is an integer value.
+        data_type: integer
+      - name: time
+        description: The 'time' column represents the time taken by the driver to
+          complete the fastest lap. It is a time without time zone value.
+        data_type: time without time zone
+  - name: fct_fastest_lap_times
+    description: The 'fct_fastest_lap_times' model provides the fastest lap times
+      for each race, including the race_id, driver_id, lap number, driver's
+      position, and lap time.
+    columns:
+      - name: race_id
+        description: An integer identifier for each race. This is a unique identifier
+          used to distinguish each race event.
+        data_type: integer
+      - name: driver_id
+        description: An integer identifier for each driver. This is a unique identifier
+          used to distinguish each driver participating in the race.
+        data_type: integer
+      - name: lap
+        description: An integer representing the lap number in a race. This indicates
+          the specific lap for which the fastest time is recorded.
+        data_type: integer
+      - name: position
+        description: An integer column representing the position of the driver in a
+          specific race. The lower the position, the better the driver's
+          performance in the race.
+        data_type: integer
+      - name: time
+        description: A time column without time zone, representing the fastest lap time
+          achieved by the driver in a specific race. The time is measured from
+          the moment the driver crosses the start line until they cross it
+          again, completing one lap.
+        data_type: time without time zone
+  - name: fct_pit_stops
+    description: The fct_pit_stops model is a fact table that contains pit stop data
+      from racing events, including race id, driver id, stop number, lap, time,
+      and duration. It is used for analyzing pit stop performance and trends.
+    columns:
+      - name: race_id
+        description: The unique identifier for each race. This is an integer value that
+          is auto-incremented for each new race.
+        data_type: integer
+      - name: driver_id
+        description: The unique identifier for each driver. This is an integer value
+          that is auto-incremented for each new driver.
+        data_type: integer
+      - name: stop
+        description: The number of pit stops made by a driver during a race. This is an
+          integer value.
+        data_type: integer
+      - name: lap
+        description: The 'lap' column is an integer that represents the lap number
+          during which the pit stop occurred.
+        data_type: integer
+      - name: stop_time
+        description: The 'stop_time' column is a time without time zone that represents
+          the duration of the pit stop.
+        data_type: time without time zone
+      - name: total_pit_time
+        description: The 'total_pit_time' column is a time without time zone that
+          represents the total time spent in the pit stop, including both the
+          stop time and any additional time spent in the pit.
+        data_type: time without time zone
